@@ -20,6 +20,7 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'src/css/print/pdf.css' : 'src/css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+		<link rel="stylesheet" href="src/css/extra.css">
 	</head>
 	<body>
 		<div class="reveal">
@@ -37,7 +38,6 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
-				center: false,
 				history: true,
 				dependencies: [
 					{ src: 'src/plugin/markdown/marked.js' },

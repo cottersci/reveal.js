@@ -14,3 +14,4 @@ etc/
 src/.sass-cache
 src/css/reveal.min.css
 src/js/reveal.min.js
+css/
