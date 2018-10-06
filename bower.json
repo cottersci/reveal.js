@@ -2,8 +2,8 @@
   "name": "reveal.js",
   "version": "3.7.0",
   "main": [
-    "js/reveal.js",
-    "css/reveal.css"
+    "src/js/reveal.js",
+    "src/css/reveal.css"
   ],
   "homepage": "http://revealjs.com",
   "license": "MIT",
@@ -20,8 +20,9 @@
   },
   "ignore": [
     "**/.*",
+    "src/**.*"
     "node_modules",
     "bower_components",
-    "test"
+    "src/test"
   ]
 }

@@ -1,13 +1,12 @@
-PORT=8001 #Port to serve presentation
+PORT = 8001 #Port to serve presentation
 
 install:
-	#(( cd ./src & npm install ))
-	npm --prefix ./src install
+	npm install
 
 clean:
-	rm -rf ./src/etc
-	rm -rf ./src/node_modules
+	rm -rf etc
+	rm -rf node_modules
 	rm -f npm-debug.log
-
+	
 serve:
-	npm --prefix ./src start -- --port=$PORT
+	npm start -- --port=$(PORT)

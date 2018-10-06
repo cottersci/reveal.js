@@ -6,9 +6,11 @@ src/out/
 .DS_Store
 .svn
 src/log/*.log
+*.log
 src/tmp/**
-src/node_modules/
-src/package-lock.json
+node_modules/
+package-lock.json
+etc/
 src/.sass-cache
 src/css/reveal.min.css
 src/js/reveal.min.js

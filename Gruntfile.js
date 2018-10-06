@@ -93,11 +93,12 @@ module.exports = function(grunt) {
 
 		connect: {
 			server: {
-				options: {
+				options:{
+					hostname: 'localhost',
 					port: port,
 					base: root,
-					livereload: true,
-					open: true,
+					livereload: false, //Workaround for windows users: https://github.com/gruntjs/grunt-contrib-watch/issues/493#issuecomment-219046413
+					open: false,
 					useAvailablePort: true
 				}
 			}
@@ -107,12 +108,12 @@ module.exports = function(grunt) {
 			bundle: {
 				src: [
 					'index.html',
-					'css/**',
-					'js/**',
-					'lib/**',
-					'images/**',
-					'plugin/**',
-					'**.md'
+					'src/css/**',
+					'src/js/**',
+					'src/lib/**',
+					'src/images/**',
+					'src/plugin/**',
+					'slides/**.md'
 				],
 				dest: 'reveal-js-presentation.zip'
 			}
@@ -120,35 +121,37 @@ module.exports = function(grunt) {
 
 		watch: {
 			js: {
-				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				files: [ 'Gruntfile.js', 'src/js/reveal.js' ],
 				tasks: 'js'
 			},
 			theme: {
 				files: [
-					'css/theme/source/*.sass',
-					'css/theme/source/*.scss',
-					'css/theme/template/*.sass',
-					'css/theme/template/*.scss'
+					'src/css/theme/source/*.sass',
+					'src/css/theme/source/*.scss',
+					'src/css/theme/template/*.sass',
+					'src/css/theme/template/*.scss'
 				],
 				tasks: 'css-themes'
 			},
 			css: {
-				files: [ 'css/reveal.scss' ],
+				files: [ 'xrc/css/reveal.scss' ],
 				tasks: 'css-core'
 			},
 			html: {
-				files: root.map(path => path + '/*.html')
+				files: [root.map(path => path + '/*.html'),
+				        'slides/*.html'],
 			},
 			markdown: {
-				files: root.map(path => path + '/*.md')
+				files: root.map(path => path + 'slides/*.md')
 			},
 			options: {
-				livereload: true
+				livereload: true,
+				hostname: "localhost",
 			}
 		},
 
 		retire: {
-			js: [ 'js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js' ],
+			js: [ 'src/js/reveal.js', 'src/lib/js/*.js', 'src/plugin/**/*.js' ],
 			node: [ '.' ]
 		}
 
