@@ -6,44 +6,80 @@
 
 		<title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="src/css/reveal.css">
+		<link rel="stylesheet" href="src/css/theme/black.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="src/lib/css/zenburn.css">
+
+		<link rel="stylesheet" href="src/css/extras.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'src/css/print/pdf.css' : 'src/css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+		<link rel="stylesheet" href="src/css/extras.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-external="slides/Section1.html"></section>
+				<section data-external="slides/Section2.html"></section>
 			</div>
 		</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+		<script src="src/lib/js/head.min.js"></script>
+		<script src="src/js/reveal.js"></script>
 
 		<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				history: true,
+				math: {
+					mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+					config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+				},
+				anything: [
+				 {
+					className: "plot",
+					defaults: {width:500, height: 500, grid:true},
+					initialize: (function(container, options){ options.target = "#"+container.id; functionPlot(options) })
+				 },
+				],
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+					{ src: 'src/plugin/markdown/marked.js' },
+					{ src: 'src/plugin/markdown/markdown.js' },
+					{ src: 'src/plugin/notes/notes.js', async: true },
+					{ src: 'src/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{
+						src: 'src/plugin/external/external.js',
+						condition: function() {
+								return !!document.querySelector( '[data-external],[data-external-replace]' );
+						}
+					},
+					{ src: 'src/plugin/math/math.js', async: true },
+					{ src: 'https://unpkg.com/d3@3/d3.min.js' },
+					{ src: 'https://unpkg.com/function-plot@1/dist/function-plot.js' },
+					{ src: 'src/plugin/anything/anything.js'},
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); }},
+				],
+				keyboard: {
+						39: 'navigateNext',
+						37: 'navigatePrev'
+				},
+				controls: false,
 			});
 		</script>
+
+		<!-- Following is a workaround for windows users where 0.0.0.0 is not
+				 bound to localhost: https://github.com/gruntjs/grunt-contrib-watch/issues/493#issuecomment-219046413 -->
+		<script src="//localhost:35729/livereload.js?snipver=1"></script>
 	</body>
 </html>

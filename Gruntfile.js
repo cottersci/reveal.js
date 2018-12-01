@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 		},
 
 		qunit: {
-			files: [ 'test/*.html' ]
+			files: [ 'src/test/*.html' ]
 		},
 
 		uglify: {
@@ -29,28 +29,32 @@ module.exports = function(grunt) {
 				ie8: true
 			},
 			build: {
-				src: 'js/reveal.js',
-				dest: 'js/reveal.min.js'
+				src: 'src/js/reveal.js',
+				dest: 'src/js/reveal.min.js'
 			}
 		},
 
 		sass: {
 			core: {
-				src: 'css/reveal.scss',
-				dest: 'css/reveal.css'
+				src: 'src/css/reveal.scss',
+				dest: 'src/css/reveal.css'
+			},
+			extras: {
+				src: 'src/css/extras.scss',
+				dest: 'src/css/extras.css'
 			},
 			themes: {
 				expand: true,
-				cwd: 'css/theme/source',
+				cwd: 'src/css/theme/source',
 				src: ['*.sass', '*.scss'],
-				dest: 'css/theme',
+				dest: 'src/css/theme',
 				ext: '.css'
 			}
 		},
 
 		autoprefixer: {
 			core: {
-				src: 'css/reveal.css'
+				src: 'src/css/reveal.css'
 			}
 		},
 
@@ -59,8 +63,8 @@ module.exports = function(grunt) {
 				compatibility: 'ie9'
 			},
 			compress: {
-				src: 'css/reveal.css',
-				dest: 'css/reveal.min.css'
+				src: 'src/css/reveal.css',
+				dest: 'src/css/reveal.min.css'
 			}
 		},
 
@@ -88,16 +92,17 @@ module.exports = function(grunt) {
 					exports: false
 				}
 			},
-			files: [ 'Gruntfile.js', 'js/reveal.js' ]
+			files: [ 'Gruntfile.js', 'src/js/reveal.js' ]
 		},
 
 		connect: {
 			server: {
 				options: {
+					hostname: "localhost",
 					port: port,
 					base: root,
 					livereload: true,
-					open: true,
+					open: false,
 					useAvailablePort: true
 				}
 			}
@@ -107,12 +112,13 @@ module.exports = function(grunt) {
 			bundle: {
 				src: [
 					'index.html',
-					'css/**',
-					'js/**',
-					'lib/**',
+					'src/css/**',
+					'src/js/**',
+					'src/lib/**',
 					'images/**',
-					'plugin/**',
-					'**.md'
+					'src/plugin/**',
+					'slides/**.md',
+					'slides/**.html',
 				],
 				dest: 'reveal-js-presentation.zip'
 			}
@@ -120,35 +126,37 @@ module.exports = function(grunt) {
 
 		watch: {
 			js: {
-				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				files: [ 'Gruntfile.js', 'src/js/reveal.js' ],
 				tasks: 'js'
 			},
 			theme: {
 				files: [
-					'css/theme/source/*.sass',
-					'css/theme/source/*.scss',
-					'css/theme/template/*.sass',
-					'css/theme/template/*.scss'
+					'src/css/theme/source/*.sass',
+					'src/css/theme/source/*.scss',
+					'src/css/theme/template/*.sass',
+					'src/css/theme/template/*.scss'
 				],
 				tasks: 'css-themes'
 			},
 			css: {
-				files: [ 'css/reveal.scss' ],
+				files: [ 'src/css/reveal.scss',
+			 					 'src/css/extras.scss'],
 				tasks: 'css-core'
 			},
 			html: {
-				files: root.map(path => path + '/*.html')
+				files: [root.map(path => path + '/*.html'),
+				        'slides/*.html'],
 			},
 			markdown: {
-				files: root.map(path => path + '/*.md')
+				files: root.map(path => path + 'slides/*.md')
 			},
 			options: {
-				livereload: true
+				livereload: true,
 			}
 		},
 
 		retire: {
-			js: [ 'js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js' ],
+			js: [ 'src/js/reveal.js', 'src/lib/js/*.js', 'src/plugin/**/*.js' ],
 			node: [ '.' ]
 		}
 
@@ -176,7 +184,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );
 
 	// Core framework CSS
-	grunt.registerTask( 'css-core', [ 'sass:core', 'autoprefixer', 'cssmin' ] );
+	grunt.registerTask( 'css-core', [ 'sass:core', 'sass:extras', 'autoprefixer', 'cssmin' ] );
 
 	// All CSS
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
